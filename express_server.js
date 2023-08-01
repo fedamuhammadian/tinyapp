@@ -1,7 +1,21 @@
 const express = require("express");
 const app = express();
-const PORT = 8080; // default port 8080
+const PORT = 8080; 
 app.set("view engine", "ejs");
+app.get("/urls", (req, res) => {
+    const templateVars = { urls: urlDatabase };
+    res.render("urls_index", templateVars);
+  });
+app.get("/urls/:id", (req, res) => {
+    /* const id = req.params.id;
+  const longURL = urlDatabase[id]; // Replace ?? with the correct code to get the longURL
+  const templateVars = { id: id, longURL: longURL };
+  res.render("urls_show", templateVars);*/
+  const id = req.params.id;
+  const longURL = urlDatabase[id];
+  const templateVars = { id: id, longURL: longURL/* What goes here? */ };
+  res.render("urls_show", templateVars);
+});
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
