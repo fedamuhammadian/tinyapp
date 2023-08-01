@@ -1,19 +1,32 @@
+function generateRandomString(url) {
+    let randomString = '';
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * url.length);
+      randomString += url.charAt(randomIndex);
+    }
+    return randomString;
+  };
+  
 const express = require("express");
 const app = express();
 const PORT = 8080; 
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 app.get("/urls", (req, res) => {
     const templateVars = { urls: urlDatabase };
     res.render("urls_index", templateVars);
   });
+  app.post("/urls", (req, res) => {
+    console.log(req.body); 
+    res.send("Ok"); 
+  });
+  app.get("/urls/new", (req, res) => {
+    res.render("urls_new");
+  });
 app.get("/urls/:id", (req, res) => {
-    /* const id = req.params.id;
-  const longURL = urlDatabase[id]; // Replace ?? with the correct code to get the longURL
-  const templateVars = { id: id, longURL: longURL };
-  res.render("urls_show", templateVars);*/
   const id = req.params.id;
   const longURL = urlDatabase[id];
-  const templateVars = { id: id, longURL: longURL/* What goes here? */ };
+  const templateVars = { id: id, longURL: longURL };
   res.render("urls_show", templateVars);
 });
 
