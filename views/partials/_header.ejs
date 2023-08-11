@@ -17,19 +17,14 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
-      <% if (username) { %>
-        <div class="navbar-text mx-2">Logged in as <%= username %></div>
+      <% if (user) { %>
+        <div class="navbar-text mx-2">Logged in as <%= user.email %></div>
         <form method="POST" action="/logout" class="form-inline ml-auto">
           <button type="submit" class="btn btn-danger">Logout</button>
         </form>
       <% } else { %>
-        <form method="POST" action="/login" class="form-inline ml-auto mr-3">
-          <div class="form-group">
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-          </div>
-          <button type="submit" class="btn btn-primary ml-2">Login</button>
-        </form>
+        <a class="nav-item nav-link btn btn-primary mx-2" href="/register">Register</a>
+        <a class="nav-item nav-link btn btn-primary mx-2" href="/login">Login</a>
       <% } %>
     </div>
   </nav>
