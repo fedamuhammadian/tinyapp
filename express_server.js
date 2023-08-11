@@ -44,7 +44,8 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  let templateVars = {user: null};
+  res.render("register", templateVars);
 });
 
 app.post("/urls", (req, res) => {
@@ -64,12 +65,20 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls/:id", (req, res) => {
   const id = req.params.id;
   const longURL = urlDatabase[id];
-  const templateVars = { id: id, longURL: longURL };
+  const templateVars = { user: null, id: id, longURL: longURL };
   res.render("urls_show", templateVars);
+});
+app.post('/urls/:id/delete', (req, res) => {
+  const urlIdToDelete = req.params.id;
+  if (urlDatabase[urlIdToDelete]) {
+    delete urlDatabase[urlIdToDelete];
+  }
+  res.redirect('/urls');
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  let templateVars = {user: null};
+  res.render("login", templateVars);
 });
 
 app.post("/urls/:id", (req, res) => {
