@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const cookieSession = require("cookie-session");
+const helpers = require("./helpers");
 const app = express();
 const PORT = 3000;
 app.set("view engine", "ejs");
@@ -8,10 +9,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieSession({
   name: "session",
   keys: ["secret-key"],
-  maxAge: 60 * 60 * 1000 // 1 hour maximum age assigned to cookies
+  maxAge: 60 * 60 * 1000, // 1 hour maximum age assigned to cookies
 }));
 
-
+const getUserByEmail = function(email, usersDatabase) {
+  for (const userId in usersDatabase) {
+    const user = usersDatabase[userId];
+    if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
+};
 
 const urlDatabase = {
   "b2xVn2": {
@@ -168,20 +177,20 @@ app.post("/urls/:id", requireLogin, (req, res) => {
   urlDatabase[id].longURL = newLongURL;
   res.redirect("/urls");
 });
-
+ 
 app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const user = Object.values(users).find(user => user.email === email);
-
+  const user = helpers.getUserByEmail(email, users); 
   if (!user || !bcrypt.compareSync(password, user.password)) {
     return res.status(403).send("Invalid email or password.");
   }
 
-  req.session.user_id = user.id; 
+  req.session.user_id = user.id;
   res.redirect("/urls");
 });
+
 
 app.post("/logout", (req, res) => {
   req.session = null; 
@@ -196,19 +205,20 @@ app.post("/register", (req, res) => {
     return res.status(400).send("Email and password cannot be empty.");
   }
 
-  const existingUser = Object.values(users).find(user => user.email === email);
+  const existingUser = helpers.getUserByEmail(email, users); 
   if (existingUser) {
     return res.status(400).send("Email already registered.");
   }
 
   const userId = generateRandomString();
-  const hashedPassword = bcrypt.hashSync(password, 10); 
+  const hashedPassword = bcrypt.hashSync(password, 10);
+
   users[userId] = {
     id: userId,
     email: email,
-    password: hashedPassword, 
+    password: hashedPassword,
   };
-  req.session.user_id = userId; 
+  req.session.user_id = userId;
   res.redirect("/urls");
 });
 
