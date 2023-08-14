@@ -1,1 +1,2 @@
-Console.log(Hello world!);
+import {users} from './express_server'
+console.log(users);
