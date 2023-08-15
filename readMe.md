@@ -4,7 +4,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["This in the main page when a user is loged in"](https://raw.githubusercontent.com/fedamuhammadian/tinyapp/dd57f20f58ac8a98ccc5712332e1980a18ebcd6a/docs/main_page.png)
+!["This in the main page when a user is loged in"](https://github.com/fedamuhammadian/tinyapp/blob/master/docs/ulr_page.png?raw=true)
 !["Registeration page for non-member users"](https://raw.githubusercontent.com/fedamuhammadian/tinyapp/dd57f20f58ac8a98ccc5712332e1980a18ebcd6a/docs/register_page.png)
 
 ## Dependencies
