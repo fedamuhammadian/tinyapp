@@ -224,7 +224,7 @@ app.post("/register", (req, res) => {
 
 app.get("/u/:id", (req, res) => {
   const id = req.params.id;
-  const longURL = urlDatabase[id];
+  const longURL = urlDatabase[id].longURL;
   if (longURL) {
     res.redirect(longURL);
   } else {
@@ -233,7 +233,7 @@ app.get("/u/:id", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.redirect("/register");
 });
 
 app.listen(PORT, () => {
